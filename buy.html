@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARZONE — Mashina Sotib Olish</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #161616;
+  --bg-hover: #1e1e1e;
+  --accent: #e50914;
+  --accent-hover: #ff1a25;
+  --success: #00c853;
+  --text-primary: #ffffff;
+  --text-secondary: #8a8a8a;
+  --border: #2a2a2a;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 50px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.nav-logo .red { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.nav-link:hover, .nav-link.active { color: var(--accent); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-logout {
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.btn-logout:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* MAIN */
+.page-content { padding-top: 70px; }
+
+.section {
+  padding: 60px 50px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-label {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(229, 9, 20, 0.15);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 42px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.section-title .red { color: var(--accent); }
+
+.section-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* PROGRESS BAR */
+.progress-container {
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+
+.progress-line {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 1;
+  transition: width 0.4s ease;
+}
+
+.progress-step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-circle {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+}
+
+.progress-step.done .step-circle {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.step-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+
+.progress-step.active .step-label,
+.progress-step.done .step-label {
+  color: var(--text-primary);
+}
+
+/* STEPS */
+.step {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.step.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* STEP 1: CAR SELECTION */
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.car-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.car-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.car-card.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+}
+
+.car-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: white;
+  z-index: 2;
+}
+
+.car-card-img {
+  height: 180px;
+  overflow: hidden;
+}
+
+.car-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.car-card:hover .car-card-img img {
+  transform: scale(1.08);
+}
+
+.car-card-body {
+  padding: 18px;
+}
+
+.car-card-name {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.car-card-price {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.car-card-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.car-card-info span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* STEP 2: PAYMENT METHOD */
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.payment-method {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.payment-method:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.payment-method.selected {
+  border-color: var(--accent);
+  background: rgba(229, 9, 20, 0.05);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.15);
+}
+.page-content {
+    background: linear-gradient(
+        rgba(0, 255, 255, 0.534),
+        rgb(0, 0, 0)
+    );
+}
+.payment-method.selected::before {
+  content: '✓';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: white;
+}
+
+.payment-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.payment-name {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.payment-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* STEP 3: FORM */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px;
+}
+
+.form-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+}
+
+.form-input::placeholder {
+  color: #555;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+}.hero {
+    min-height: 100vh;
+    background: url('evolt-bg.png') center/cover no-repeat;
+    position: relative;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* SELECTED CAR SUMMARY */
+.selected-summary {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.selected-summary img {
+  width: 90px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.selected-summary-info {
+  flex: 1;
+}
+
+.selected-summary-name {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.selected-summary-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* MONTHLY INFO */
+.monthly-info {
+  background: rgba(229, 9, 20, 0.08);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.monthly-info-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.monthly-info-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* BUTTONS */
+.form-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.btn-primary {
+  padding: 14px 36px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  padding: 14px 36px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* SUCCESS */
+.success-container {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.success-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  margin: 0 auto 24px;
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.success-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.success-text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 30px; right: 30px;
+  padding: 16px 28px;
+  border-radius: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.3);
+}
+
+.toast.show { display: flex; }
+
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* FOOTER */
+.footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 30px 50px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 60px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .navbar { padding: 0 24px; }
+  .section { padding: 40px 24px; }
+  .section-title { font-size: 32px; }
+  .payment-methods { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .section-title { font-size: 26px; }
+  .cars-grid { grid-template-columns: 1fr; }
+  .step-label { font-size: 11px; }
+}
+
+header {
+    height: 75px;
+    background: #080c0f;
+    border-bottom: 1px solid #252b30;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 4%;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+
+.logo span {
+    color: #ff101c;
+}
+
+nav {
+    display: flex;
+    gap: 32px;
+}
+
+nav a {
+    color: #b8c0c9;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+nav a.active {
+    color: #ff101c;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        <span>CAR</span>ZONE
+    </div>
+
+
+    <nav id="navMenu">
+        <a class="active" href="index.html">Bosh sahifa</a>
+        <a href="cars.html">Avtomobillar</a>
+        <a href="buy.html">Sotib olish</a>
+        <a href="profile.html">Profil</a>
+        <a href="contact.html">Aloqa</a>
+        <a href="compare.html">⚖️</a>
+    </nav>
+
+</header>
+
+<!-- MAIN -->
+<div class="page-content">
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">🛒 SOTIB OLISH</div>
+      <h1 class="section-title">Mashina <span class="red">sotib olish</span></h1>
+      <p class="section-subtitle">3 oddiy qadamda orzu mashinangizga ega bo'ling</p>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-container">
+      <div class="progress-steps">
+        <div class="progress-line" id="progressLine" style="width: 0%;"></div>
+        <div class="progress-step active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-label">Mashina tanlash</div>
+        </div>
+        <div class="progress-step" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-label">To'lov usuli</div>
+        </div>
+        <div class="progress-step" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-label">Ma'lumotlar</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: CAR SELECTION -->
+    <div class="step active" id="step1">
+      <h2 style="font-size:24px; font-weight:800; margin-bottom:8px; text-align:center;">Mashinangizni tanlang</h2>
+      <p style="color:var(--text-secondary); text-align:center; margin-bottom:30px;">Sotib olmoqchi bo'lgan mashinani tanlang</p>
+      <div class="cars-grid" id="carsGrid"></div>
+      <div class="form-actions">
+        <button class="btn-primary" id="btnToStep2" onclick="goToStep(2)" disabled>
+          Keyingi qadam →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: PAYMENT METHOD -->
+    <div class="step" id="step2">
+      <h2 style="font-size:24px; font-weight:800; margin-bottom:8px; text-align:center;">To'lov usulini tanlang</h2>
+      <p style="color:var(--text-secondary); text-align:center; margin-bottom:40px;">Sizga qulay bo'lgan to'lov turini tanlang</p>
+      
+      <div class="payment-methods">
+        <div class="payment-method" onclick="selectPayment('cash', this)">
+          <div class="payment-icon">💵</div>
+          <div class="payment-name">Naqd pul</div>
+          <div class="payment-desc">To'liq summani naqd pul bilan to'lash</div>
+        </div>
+        <div class="payment-method" onclick="selectPayment('card', this)">
+          <div class="payment-icon">💳</div>
+          <div class="payment-name">Bank karta</div>
+          <div class="payment-desc">Karta raqami orqali onlayn to'lov</div>
+        </div>
+        <div class="payment-method" onclick="selectPayment('monthly', this)">
+          <div class="payment-icon">📅</div>
+          <div class="payment-name">Oylik bo'lib</div>
+          <div class="payment-desc">36 oygacha bo'lib-bo'lib to'lash</div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-secondary" onclick="goToStep(1)">← Orqaga</button>
+        <button class="btn-primary" id="btnToStep3" onclick="goToStep(3)" disabled>
+          Keyingi qadam →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: FORM -->
+    <div class="step" id="step3">
+      <div class="form-container">
+        <div class="form-title">Ma'lumotlaringizni kiriting</div>
+        <div class="form-subtitle" id="formSubtitle">To'lovni yakunlash uchun ma'lumotlarni to'ldiring</div>
+
+        <!-- Selected car summary -->
+        <div class="selected-summary" id="selectedSummary"></div>
+
+        <!-- Monthly info -->
+        <div class="monthly-info" id="monthlyInfo" style="display:none;">
+          <div>
+            <div class="monthly-info-label">Oylik to'lov summasi (36 oy)</div>
+          </div>
+          <div class="monthly-info-value" id="monthlyValue">$0/oy</div>
+        </div>
+
+        <form id="paymentForm" onsubmit="submitOrder(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ism *</label>
+              <input type="text" class="form-input" id="firstName" placeholder="Ismingiz" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Familiya *</label>
+              <input type="text" class="form-input" id="lastName" placeholder="Familiyangiz" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Telefon raqam *</label>
+            <input type="tel" class="form-input" id="phone" placeholder="+998 90 123 45 67" required>
+          </div>
+
+          <!-- Card fields (hidden by default) -->
+          <div id="cardFields" style="display:none;">
+            <div class="form-group">
+              <label class="form-label">Karta raqami *</label>
+              <input type="text" class="form-input" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Amal qilish muddati *</label>
+                <input type="text" class="form-input" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV *</label>
+                <input type="text" class="form-input" id="cardCvv" placeholder="123" maxlength="3">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Karta egasining ismi *</label>
+              <input type="text" class="form-input" id="cardHolder" placeholder="ISM FAMILIYA">
+            </div>
+          </div>
+
+          <div class="form-actions" style="margin-top:24px;">
+            <button type="button" class="btn-secondary" onclick="goToStep(2)">← Orqaga</button>
+            <button type="submit" class="btn-primary">
+              ✅ Buyurtma berish
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div class="step" id="step4">
+      <div class="success-container">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Buyurtma qabul qilindi!</div>
+        <div class="success-text" id="successText">
+          Tez orada operatorlarimiz siz bilan bog'lanishadi.
+        </div>
+        <button class="btn-primary" onclick="resetAll()">
+          🏠 Bosh sahifaga qaytish
+        </button>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  © 2026 CARZONE. Barcha huquqlar himoyalangan.
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ MA'LUMOTLAR ============
+const cars = [
+  {
+    id: 1, brand: 'BMW', name: 'BMW 520i', price: 48000, year: 2022, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 2, brand: 'BMW', name: 'BMW X5', price: 65000, year: 2023, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?w=400&h=300&fit=crop'
+  },
+  {
+    id: 3, brand: 'Mercedes', name: 'Mercedes-Benz E 200', price: 52000, year: 2021, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop'
+  },
+  {
+    id: 4, brand: 'Mercedes', name: 'Mercedes AMG GT', price: 89000, year: 2023, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400&h=300&fit=crop'
+  },
+  {
+    id: 5, brand: 'Toyota', name: 'Toyota RAV4', price: 37000, year: 2022, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&h=300&fit=crop'
+  },
+  {
+    id: 6, brand: 'Toyota', name: 'Toyota Camry', price: 32000, year: 2023, fuel: 'Benzin',
+    image: './img/toyota camry.webp'
+  },
+
+  {
+    id: 7, brand: 'Chevrolet', name: 'Chevrolet Camaro', price: 42000, year: 2022, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop'
+  },
+  {
+    id: 8, brand: 'Chevrolet', name: 'Chevrolet Tahoe', price: 58000, year: 2023, fuel: 'Benzin',
+    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop'
+  },
+  {
+    id: 9, brand: 'Tesla', name: 'Tesla Model 3', price: 42000, year: 2023, fuel: 'Elektr',
+    image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=300&fit=crop'
+  },
+  {
+    id: 10, brand: 'Tesla', name: 'Tesla Model S Plaid', price: 108990, year: 2023, fuel: 'Elektr',
+    image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop'
+  }
+];
+
+// ============ STATE ============
+let selectedCar = null;
+let selectedPayment = null;
+let currentStep = 1;
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', () => {
+  renderCars();
+  setupCardInputs();
+});
+
+// ============ RENDER CARS ============
+function renderCars() {
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = cars.map(car => `
+    <div class="car-card" data-id="${car.id}" onclick="selectCar(${car.id})">
+      <div class="car-card-img">
+        <img src="${car.image}" alt="${car.name}">
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-name">${car.name}</div>
+        <div class="car-card-price">$${car.price.toLocaleString()}</div>
+        <div class="car-card-info">
+          <span>📅 ${car.year}</span>
+          <span> ${car.fuel}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ SELECT CAR ============
+function selectCar(id) {
+  selectedCar = cars.find(c => c.id === id);
+  
+  document.querySelectorAll('.car-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+  document.querySelector(`.car-card[data-id="${id}"]`).classList.add('selected');
+  
+  document.getElementById('btnToStep2').disabled = false;
+}
+
+// ============ SELECT PAYMENT ============
+function selectPayment(method, el) {
+  selectedPayment = method;
+  
+  document.querySelectorAll('.payment-method').forEach(m => {
+    m.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  
+  document.getElementById('btnToStep3').disabled = false;
+}
+
+// ============ GO TO STEP ============
+function goToStep(step) {
+  // Validation
+  if (step === 2 && !selectedCar) {
+    showToast('⚠️ Avval mashina tanlang!');
+    return;
+  }
+  if (step === 3 && !selectedPayment) {
+    showToast('⚠️ To\'lov usulini tanlang!');
+    return;
+  }
+
+  currentStep = step;
+
+  // Hide all steps
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+
+  // Update progress
+  updateProgress(step);
+
+  // Step 3 setup
+  if (step === 3) {
+    setupStep3();
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============ UPDATE PROGRESS ============
+function updateProgress(step) {
+  const steps = document.querySelectorAll('.progress-step');
+  const line = document.getElementById('progressLine');
+  
+  steps.forEach((s, i) => {
+    const stepNum = i + 1;
+    s.classList.remove('active', 'done');
+    if (stepNum < step) s.classList.add('done');
+    if (stepNum === step) s.classList.add('active');
+  });
+
+  const progress = ((step - 1) / (steps.length - 1)) * 100;
+  line.style.width = progress + '%';
+}
+
+// ============ SETUP STEP 3 ============
+function setupStep3() {
+  // Show selected car
+  const summary = document.getElementById('selectedSummary');
+  summary.innerHTML = `
+    <img src="${selectedCar.image}" alt="${selectedCar.name}">
+    <div class="selected-summary-info">
+      <div class="selected-summary-name">${selectedCar.name}</div>
+      <div class="selected-summary-price">$${selectedCar.price.toLocaleString()}</div>
+    </div>
+  `;
+
+  // Show/hide card fields
+  const cardFields = document.getElementById('cardFields');
+  const monthlyInfo = document.getElementById('monthlyInfo');
+  const subtitle = document.getElementById('formSubtitle');
+
+  cardFields.style.display = 'none';
+  monthlyInfo.style.display = 'none';
+
+  if (selectedPayment === 'card') {
+    cardFields.style.display = 'block';
+    subtitle.textContent = 'Karta ma\'lumotlarini kiriting';
+    
+    // Make card fields required
+    ['cardNumber', 'cardExpiry', 'cardCvv', 'cardHolder'].forEach(id => {
+      document.getElementById(id).required = true;
+    });
+  } else if (selectedPayment === 'monthly') {
+    monthlyInfo.style.display = 'flex';
+    const monthly = Math.round(selectedCar.price / 36);
+    document.getElementById('monthlyValue').textContent = '$' + monthly.toLocaleString() + '/oy';
+    subtitle.textContent = 'Oylik bo\'lib to\'lash uchun ma\'lumotlarni kiriting';
+    
+    ['cardNumber', 'cardExpiry', 'cardCvv', 'cardHolder'].forEach(id => {
+      document.getElementById(id).required = false;
+    });
+  } else {
+    subtitle.textContent = 'Naqd to\'lov uchun ma\'lumotlarni kiriting';
+    ['cardNumber', 'cardExpiry', 'cardCvv', 'cardHolder'].forEach(id => {
+      document.getElementById(id).required = false;
+    });
+  }
+}
+
+// ============ CARD INPUT FORMATTING ============
+function setupCardInputs() {
+  const cardNumber = document.getElementById('cardNumber');
+  const cardExpiry = document.getElementById('cardExpiry');
+  const cardCvv = document.getElementById('cardCvv');
+
+  cardNumber.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+    value = value.match(/.{1,4}/g)?.join(' ') || value;
+    e.target.value = value;
+  });
+
+  cardExpiry.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    e.target.value = value;
+  });
+
+  cardCvv.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/\D/g, '');
+  });
+}
+
+// ============ SUBMIT ORDER ============
+function submitOrder(e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!firstName || !lastName || !phone) {
+    showToast('️ Barcha maydonlarni to\'ldiring!');
+    return;
+  }
+
+  if (selectedPayment === 'card') {
+    const cardNumber = document.getElementById('cardNumber').value.trim();
+    const cardExpiry = document.getElementById('cardExpiry').value.trim();
+    const cardCvv = document.getElementById('cardCvv').value.trim();
+    const cardHolder = document.getElementById('cardHolder').value.trim();
+
+    if (!cardNumber || !cardExpiry || !cardCvv || !cardHolder) {
+      showToast('⚠️ Karta ma\'lumotlarini to\'ldiring!');
+      return;
+    }
+
+    if (cardNumber.replace(/\s/g, '').length < 16) {
+      showToast('⚠️ Karta raqami noto\'g\'ri!');
+      return;
+    }
+  }
+
+  // Save order
+  const order = {
+    id: Date.now(),
+    car: selectedCar,
+    payment: selectedPayment,
+    customer: { firstName, lastName, phone },
+    date: new Date().toISOString(),
+    status: 'Qabul qilindi'
+  };
+
+  const orders = JSON.parse(localStorage.getItem('carzone_orders') || '[]');
+  orders.push(order);
+  localStorage.setItem('carzone_orders', JSON.stringify(orders));
+
+  // Show success
+  const paymentNames = {
+    cash: 'Naqd pul',
+    card: 'Bank karta',
+    monthly: 'Oylik bo\'lib to\'lash'
+  };
+
+  document.getElementById('successText').innerHTML = `
+    <strong>${selectedCar.name}</strong> mashinasi muvaffaqiyatli buyurtma qilindi!<br>
+    To'lov usuli: <strong>${paymentNames[selectedPayment]}</strong><br>
+    Tez orada operatorlarimiz siz bilan bog'lanishadi.
+  `;
+
+  goToStep(4);
+  showToast('✅ Buyurtma qabul qilindi!');
+}
+
+// ============ RESET ============
+function resetAll() {
+  selectedCar = null;
+  selectedPayment = null;
+  currentStep = 1;
+
+  document.querySelectorAll('.car-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+  document.getElementById('paymentForm').reset();
+  document.getElementById('btnToStep2').disabled = true;
+  document.getElementById('btnToStep3').disabled = true;
+
+  goToStep(1);
+}
+
+// ============ TOAST ============
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+</script>
+
+</body>
+</html>

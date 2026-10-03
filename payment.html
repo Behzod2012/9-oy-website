@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CARZONE | Oylik to‘lov</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        <span>CAR</span>ZONE
+    </div>
+
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <nav id="navMenu">
+        <a class="active" href="index.html">Bosh sahifa</a>
+        <a href="cars.html">Avtomobillar</a>
+        <a href="payment.html">Oylik to‘lov</a>
+        <a href="profile.html">Profil</a>
+        <a href="contact.html">Aloqa</a>
+        <a href="compare.html">⚖️</a>
+    </nav>
+
+</header>
+
+
+<section class="page-header">
+
+    <p>CARZONE FINANCE</p>
+
+    <h1>Oylik to‘lov</h1>
+
+    <span>Avtomobil uchun oylik to‘lovni hisoblang</span>
+
+</section>
+
+
+<section class="payment-section">
+
+    <div class="payment-box">
+
+        <h2>To‘lov kalkulyatori</h2>
+
+        <p class="payment-desc">
+            Ma'lumotlarni kiriting va taxminiy oylik to‘lovni hisoblang.
+        </p>
+
+
+        <div class="input-group">
+
+            <label>Mashina narxi ($)</label>
+
+            <input
+                type="number"
+                id="carPrice"
+                value="85000"
+                min="1000"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Boshlang‘ich to‘lov ($)</label>
+
+            <input
+                type="number"
+                id="downPayment"
+                value="15000"
+                min="0"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Muddat</label>
+
+            <select id="loanMonths">
+
+                <option value="12">12 oy</option>
+
+                <option value="24">24 oy</option>
+
+                <option value="36" selected>
+                    36 oy
+                </option>
+
+                <option value="48">
+                    48 oy
+                </option>
+
+                <option value="60">
+                    60 oy
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Yillik foiz (%)</label>
+
+            <input
+                type="number"
+                id="interestRate"
+                value="12"
+                min="0"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <button
+            class="main-btn calculate-btn"
+            onclick="calculatePayment()"
+        >
+            HISOBLASH
+        </button>
+
+
+        <div class="payment-result">
+
+            <p>Oylik to‘lov</p>
+
+            <h3 id="monthlyPayment">
+                $0
+            </h3>
+
+            <span>
+                Taxminiy hisob-kitob
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="logo">
+        <span>CAR</span>ZONE
+    </div>
+
+    <p>© 2026 CARZONE</p>
+
+</footer>
+
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>

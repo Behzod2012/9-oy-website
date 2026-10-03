@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARZONE - Avtomobillar</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <span>CAR</span>ZONE
+    </div>
+    <nav id="navMenu">
+        <a class="active" href="index.html">Bosh sahifa</a>
+        <a href="cars.html">Avtomobillar</a>
+        <a href="buy.html">Sotib olish</a>
+        <a href="profile.html">Profil</a>
+        <a href="contact.html">Aloqa</a>
+        <a href="compare.html">⚖️</a>   
+    </nav>
+</header>
+
+<main>
+
+    <!-- YANGI QO'SHILGAN QIDIRUV MAYDONI -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="🔍 Mashina nomini yozing (masalan: BMW, Camry, Tesla)...">
+    </div>
+
+    <!-- BRAND BUTTONS -->
+    <section class="brands">
+        <button class="brand-btn active" data-brand="all">Barchasi</button>
+        <button class="brand-btn" data-brand="BMW"><span class="brand-logo">◉</span> BMW</button>
+        <button class="brand-btn" data-brand="Mercedes"><span class="brand-logo">✧</span> Mercedes</button>
+        <button class="brand-btn" data-brand="Toyota"><span class="brand-logo">◎</span> Toyota</button>
+        <button class="brand-btn" data-brand="Chevrolet"><span class="brand-logo">✦</span> Chevrolet</button>
+        <button class="brand-btn" data-brand="Tesla"><span class="tesla">T</span> Tesla</button>
+    </section>
+
+    <!-- CARS -->
+    <section class="cars" id="cars">
+        <!-- BMW -->
+        <div class="car-card" data-brand="BMW">
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80">
+            <div class="car-info">
+                <h3>BMW 520i</h3>
+                <div class="price">$48,000</div>
+                <div class="details">
+                    <span>📅 2022</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-brand="BMW">
+            <img src="./img/bmw x5.webp" onerror="this.src='https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=900&q=80'">
+            <div class="car-info">
+                <h3>BMW X5</h3>
+                <div class="price">$65,000</div>
+                <div class="details">
+                    <span>📅 2023</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MERCEDES -->
+        <div class="car-card" data-brand="Mercedes">
+            <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80">
+            <div class="car-info">
+                <h3>Mercedes-Benz E 200</h3>
+                <div class="price">$52,000</div>
+                <div class="details">
+                    <span>📅 2021</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-brand="Mercedes">
+            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80">
+            <div class="car-info">
+                <h3>Mercedes AMG GT</h3>
+                <div class="price">$89,000</div>
+                <div class="details">
+                    <span>📅 2023</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOYOTA -->
+        <div class="car-card" data-brand="Toyota">
+            <img src="./img/toyota rav4.webp" onerror="this.src='https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=900&q=80'">
+            <div class="car-info">
+                <h3>Toyota RAV4</h3>
+                <div class="price">$37,000</div>
+                <div class="details">
+                    <span>📅 2022</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-brand="Toyota">
+            <img src="./img/toyota camry.webp">
+            <div class="car-info">
+                <h3>Toyota Camry</h3>
+                <div class="price">$31,000</div>
+                <div class="details">
+                    <span>📅 2023</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHEVROLET -->
+        <div class="car-card" data-brand="Chevrolet">
+            <img src="./img/chevrolet tahoe.webp" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80'">
+            <div class="car-info">
+                <h3>Chevrolet Tahoe</h3>
+                <div class="price">$60,000</div>
+                <div class="details">
+                    <span>📅 2021</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-brand="Chevrolet">
+            <img src="./img/chevrolet camaro.webp" onerror="this.src='https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80'">
+            <div class="car-info">
+                <h3>Chevrolet Camaro</h3>
+                <div class="price">$42,000</div>
+                <div class="details">
+                    <span>📅 2022</span>
+                    <span>⛽ Benzin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESLA -->
+        <div class="car-card" data-brand="Tesla">
+            <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80">
+            <div class="car-info">
+                <h3>Tesla Model 3</h3>
+                <div class="price">$45,000</div>
+                <div class="details">
+                    <span>📅 2023</span>
+                    <span>⚡ Elektro</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-brand="Tesla">
+            <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=900&q=80">
+            <div class="car-info">
+                <h3>Tesla Model S</h3>
+                <div class="price">$79,000</div>
+                <div class="details">
+                    <span>📅 2024</span>
+                    <span>⚡ Elektro</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- MASHINA HAQIDA MA'LUMOT OYNASI -->
+<div class="car-modal" id="carModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <img id="modalImage" src="" alt="Mashina">
+        <div class="modal-info">
+            <h2 id="modalTitle">BMW 520i</h2>
+            <div class="modal-price" id="modalPrice">$48,000</div>
+            <div class="modal-details">
+                <div><span>Brend</span><strong id="modalBrand">BMW</strong></div>
+                <div><span>Yili</span><strong id="modalYear">2022</strong></div>
+                <div><span>Yoqilg‘i</span><strong id="modalFuel">Benzin</strong></div>
+                <div><span>Uzatma</span><strong id="modalTransmission">Avtomat</strong></div>
+            </div>
+            <p id="modalDescription">
+                Ushbu avtomobil yuqori komfort, zamonaviy texnologiyalar va ajoyib haydash tajribasini taqdim etadi.
+            </p>
+            <button class="buy-btn" id="buyBtn">Sotib olish</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="logo"><span>CAR</span>ZONE</div>
+    <p>© 2026 CARZONE</p>
+</footer>
+
+<script src="./script.js"></script>
+</body>
+</html>

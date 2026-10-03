@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening profilim</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: #1a1a2e;
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+
+        .page-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .page-header p { color: #aaa; font-size: 16px; }
+
+        .profile-card {
+            max-width: 550px;
+            margin: 40px auto;
+            background: #000;
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px rgba(231, 76, 60, 0.3);
+        }
+
+        .profile-card h2 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .profile-card .role { color: #aaa; font-size: 14px; margin-bottom: 30px; }
+        .profile-card .role span { color: #e74c3c; font-weight: 600; }
+
+        .info-section { text-align: left; margin-bottom: 25px; }
+        .info-section label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .info-section .value {
+            font-size: 18px;
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .info-section:last-of-type .value { border-bottom: none; }
+
+        .btn-edit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        .profile-card {
+    background: linear-gradient(
+        rgba(0, 255, 255, 0.534),
+        rgb(0, 0, 0)
+    );
+}
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-logout {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover { background: #e74c3c; color: #fff; }
+
+        /* Sotib olingan mashinalar */
+        .cars-section {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .cars-section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #222;
+        }
+
+        .cars-section-title span { color: #e74c3c; }
+
+        .car-card {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 15px;
+            animation: slideIn 0.4s ease;
+            transition: all 0.3s;
+        }
+
+        .car-card:hover {
+            border-color: #e74c3c;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.15);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .car-card img {
+            width: 130px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .car-card .car-details { flex: 1; text-align: left; }
+        .car-card .car-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .car-card .car-price { color: #e74c3c; font-size: 17px; font-weight: 700; }
+
+        .car-card .car-meta {
+            display: flex;
+            gap: 15px;
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .car-card .status-badge {
+            background: #27ae60;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .empty-cars {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+        }
+
+        .empty-cars .icon { font-size: 50px; margin-bottom: 10px; }
+        .empty-cars p { font-size: 15px; }
+
+        .empty-cars a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: #e74c3c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .empty-cars a:hover { background: #c0392b; }
+
+        .btn-clear {
+            display: block;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-clear:hover { background: #e74c3c; color: #fff; }
+
+        /* Edit Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 16px;
+            padding: 35px;
+            max-width: 450px;
+            width: 90%;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal h3 { font-size: 22px; margin-bottom: 25px; text-align: center; }
+        .modal h3 span { color: #e74c3c; }
+
+        .modal .form-group { margin-bottom: 18px; }
+        .modal .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .modal .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            background: #0d0d0d;
+            border: 2px solid #2a2a2a;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .modal .form-group input:focus { border-color: #e74c3c; }
+
+        .modal .btn-row { display: flex; gap: 12px; margin-top: 25px; }
+
+        .modal .btn-cancel {
+            flex: 1;
+            padding: 13px;
+            background: transparent;
+            border: 2px solid #333;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal .btn-cancel:hover { border-color: #555; }
+
+        .modal .btn-save {
+            flex: 1;
+            padding: 13px;
+            background: #27ae60;
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal .btn-save:hover { background: #219a52; }
+
+        /* Logout Modal */
+        .logout-modal .modal { text-align: center; }
+        .logout-modal .modal .icon { font-size: 50px; margin-bottom: 15px; }
+        .logout-modal .modal p { color: #888; margin-bottom: 25px; }
+
+        .logout-modal .btn-confirm {
+            padding: 13px 30px;
+            background: #e74c3c;
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .logout-modal .btn-confirm:hover { background: #c0392b; }
+
+        .logout-modal .btn-cancel-lg {
+            padding: 13px 30px;
+            background: transparent;
+            border: 2px solid #333;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-modal .btn-cancel-lg:hover { border-color: #555; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #27ae60;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        header {
+    height: 75px;
+    background: #080c0f;
+    border-bottom: 1px solid #252b30;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 4%;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+
+.logo span {
+    color: #ff101c;
+}
+
+nav {
+    display: flex;
+    gap: 32px;
+}
+
+nav a {
+    color: #b8c0c9;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+nav a.active {
+    color: #ff101c;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+}.hero {
+    min-height: 100vh;
+    background: url('evolt-bg.png') center/cover no-repeat;
+    position: relative;
+}
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+<header class="header">
+
+    <div class="logo">
+        <span>CAR</span>ZONE
+    </div>
+
+
+    <nav id="navMenu">
+        <a class="active" href="index.html">Bosh sahifa</a>
+        <a href="cars.html">Avtomobillar</a>
+        <a href="buy.html">Sotib olish</a>
+        <a href="profile.html">Profil</a>
+        <a href="contact.html">Aloqa</a>
+        <a href="compare.html">⚖️</a>
+    </nav>
+
+</header>
+
+    <div class="page-header">
+        <h1>Mening profilim</h1>
+        <p>Shaxsiy ma'lumotlaringizni boshqaring</p>
+    </div>
+
+    <div class="profile-card">
+        <div class="avatar" id="avatarInitial">?</div>
+        <h2 id="profileName">Foydalanuvchi</h2>
+        <p class="role"><span>CARZONE</span> foydalanuvchisi</p>
+
+        <div class="info-section">
+            <label>LOGIN (EMAIL)</label>
+            <div class="value" id="profileEmail">—</div>
+        </div>
+
+        <div class="info-section">
+            <label>TELEFON</label>
+            <div class="value" id="profilePhone">—</div>
+        </div>
+
+        <button class="btn-edit" onclick="showEditModal()">✏️ Profilni o'zgartirish</button>
+        <button class="btn-logout" onclick="showLogoutModal()">Tizimdan chiqish</button>
+    </div>
+
+    <!-- Sotib olingan mashinalar -->
+    <div class="cars-section">
+        <h2 class="cars-section-title">Sotib olingan <span>mashinalar</span></h2>
+        <div id="carsGrid"></div>
+    </div>
+
+    <button class="btn-clear" id="clearBtn" onclick="clearHistory()" style="display:none;">
+        🗑 Barcha tarixni tozalash
+    </button>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <h3>Profilni <span>o'zgartirish</span></h3>
+            <form id="editForm">
+                <div class="form-group">
+                    <label>ISM</label>
+                    <input type="text" id="editFirstName" required>
+                </div>
+                <div class="form-group">
+                    <label>FAMILIYA</label>
+                    <input type="text" id="editLastName" required>
+                </div>
+                <div class="form-group">
+                    <label>TELEFON RAQAM</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Bekor qilish</button>
+                    <button type="submit" class="btn-save"> Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div class="modal-overlay logout-modal" id="logoutModal">
+        <div class="modal">
+            <div class="icon">🚪</div>
+            <h3>Tizimdan chiqish</h3>
+            <p>Rostdan ham chiqmoqchimisiz? Barcha ma'lumotlar o'chiriladi.</p>
+            <div>
+                <button class="btn-cancel-lg" onclick="closeLogoutModal()">Bekor qilish</button>
+                <button class="btn-confirm" onclick="confirmLogout()">Ha, chiqish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let userProfile = JSON.parse(localStorage.getItem('userProfile') || 'null');
+
+        if (!userProfile) {
+            window.location.href = 'index.html';
+        }
+
+        function loadProfile() {
+            document.getElementById('profileName').textContent =
+                userProfile.firstName + ' ' + userProfile.lastName;
+            document.getElementById('profilePhone').textContent = userProfile.phone;
+            document.getElementById('profileEmail').textContent =
+                (userProfile.firstName + userProfile.lastName).toLowerCase() + '@carzone.uz';
+            document.getElementById('avatarInitial').textContent =
+                userProfile.firstName.charAt(0).toUpperCase();
+        }
+
+        loadProfile();
+
+        // Mashinalarni yuklash
+        const purchasedCars = JSON.parse(localStorage.getItem('purchasedCars') || '[]');
+        const carsGrid = document.getElementById('carsGrid');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (purchasedCars.length === 0) {
+            carsGrid.innerHTML = `
+                <div class="empty-cars">
+                    <div class="icon">🚗</div>
+                    <p>Hali hech qanday mashina sotib olmadingiz</p>
+                    <a href="index.html">Mashina tanlash</a>
+                </div>
+            `;
+        } else {
+            purchasedCars.forEach((car, index) => {
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.style.animationDelay = (index * 0.1) + 's';
+                card.innerHTML = `
+                    <img src="${car.image}" alt="${car.name}">
+                    <div class="car-details">
+                        <div class="car-name">${car.name}</div>
+                        <div class="car-price">${car.price}</div>
+                        <div class="car-meta">
+                            <span> ${car.date}</span>
+                            <span>📆 ${car.year}</span>
+                            <span>⛽ ${car.fuel}</span>
+                        </div>
+                        <div class="payment-badge">💳 ${car.paymentMethod}</div>
+                    </div>
+                    <div class="status-badge">✅ Sotib olindi</div>
+                `;
+                carsGrid.appendChild(card);
+            });
+
+            clearBtn.style.display = 'block';
+        }
+
+        // Profilni o'zgartirish
+        function showEditModal() {
+            document.getElementById('editFirstName').value = userProfile.firstName;
+            document.getElementById('editLastName').value = userProfile.lastName;
+            document.getElementById('editPhone').value = userProfile.phone;
+            document.getElementById('editModal').classList.add('show');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const newFirstName = document.getElementById('editFirstName').value.trim();
+            const newLastName = document.getElementById('editLastName').value.trim();
+            const newPhone = document.getElementById('editPhone').value.trim();
+
+            if (!newFirstName || !newLastName || !newPhone) {
+                showToast('⚠️ Barcha maydonlarni to\'ldiring!', '#e74c3c');
+                return;
+            }
+
+            userProfile = {
+                firstName: newFirstName,
+                lastName: newLastName,
+                phone: newPhone
+            };
+
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+            purchasedCars.forEach(car => {
+                car.buyer = { ...userProfile };
+            });
+            localStorage.setItem('purchasedCars', JSON.stringify(purchasedCars));
+
+            loadProfile();
+            closeEditModal();
+            showToast('✅ Profil muvaffaqiyatli yangilandi!');
+        });
+
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEditModal();
+        });
+
+        // Chiqish
+        function showLogoutModal() {
+            document.getElementById('logoutModal').classList.add('show');
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('show');
+        }
+
+        function confirmLogout() {
+            localStorage.removeItem('userProfile');
+            localStorage.removeItem('purchasedCars');
+            showToast('👋 Tizimdan chiqildi!', '#e74c3c');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        document.getElementById('logoutModal').addEventListener('click', function(e) {
+            if (e.target === this) closeLogoutModal();
+        });
+
+        // Tarixni tozalash
+        function clearHistory() {
+            if (confirm('Barcha sotib olish tarixini o\'chirmoqchimisiz?')) {
+                localStorage.removeItem('purchasedCars');
+                location.reload();
+            }
+        }
+
+        // Toast
+        function showToast(message, color = '#27ae60') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = color;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+
+</body>
+</html>
